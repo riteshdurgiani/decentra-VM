@@ -18,8 +18,10 @@ contract VotingMachine{
     event CandidateAdded(string candidateName,string partyName,uint voteCount,uint candidateNo);
     event VoteCasted(uint candidateNo,string candidateName,string partyName);
     constructor() public {
+        
         totalVotes = 0;
         candidateCount = 0;
+        addCandidate("Ritesh","BJP");
         
     }
     

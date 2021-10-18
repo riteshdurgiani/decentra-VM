@@ -7,6 +7,7 @@ import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 class VotingMachineModel extends ChangeNotifier{
   List<Candidate> candidates = [];
+  int candidateCount = 0;
   bool isLoading = true;
   final String _rpcUrl = "http://192.168.0.108:7545";
   final String _wsUrl = "ws://192.168.0.108:7545/";
@@ -82,16 +83,37 @@ class VotingMachineModel extends ChangeNotifier{
   getCandidates() async{
     List totalCandidatesList = await _client.call(contract: _contract, function: _candidateCount, params: []);
     BigInt totalCandidates = totalCandidatesList[0];
+    candidateCount = totalCandidates.toInt();
     candidates.clear();
+    print(candidateCount);
     for(var i=0;i<totalCandidates.toInt();i++){
       var candidate = await _client.call(contract: _contract, function: _candidates, params: [BigInt.from(i)]);
-      candidates.add(Candidate(candidateName: candidate[0], partyName: candidate[1], isWinner: candidate[3], voteCount: candidate[2]));
+      candidates.add(Candidate(candidateName: candidate[0], partyName: candidate[1], isWinner: candidate[3], voteCount: candidate[2].toInt()));
       
     }
+    
 
     isLoading = false;
-    ChangeNotifier();
+    notifyListeners();
   }
+
+  addCandidate(String candidateNameData,String partyNameData)async{
+    await _client.sendTransaction(_credentials, 
+    Transaction.callContract(
+    contract: _contract, 
+    function: _addCandidate, 
+    parameters: [candidateNameData,partyNameData]));
+  }
+
+  casteVote(BigInt candidateId,String candidateNameData,String partyNameData)async {
+    await _client.sendTransaction(_credentials,
+     Transaction.callContract(
+       contract: _contract, 
+       function: _casteVote, 
+       parameters: [candidateId,candidateNameData,partyNameData]));
+  }
+
+
 
 
 }
