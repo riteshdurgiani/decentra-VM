@@ -33,7 +33,9 @@ class CandidateList extends StatelessWidget {
                 subtitle: Text(candidateList.candidates[index].partyName),
                 trailing:ElevatedButton(
                 child: Text("Vote"),
-                onPressed: (){},
+                onPressed: (){
+                  candidateList.casteVote(BigInt.from(index), candidateList.candidates[index].candidateName, candidateList.candidates[index].partyName);
+                },
                 ),
               )
             ),

@@ -9,6 +9,7 @@ class VotingMachineModel extends ChangeNotifier{
   List<Candidate> candidates = [];
   int candidateCount = 0;
   bool isLoading = true;
+  bool isCandidateAdded = false;
   final String _rpcUrl = "http://192.168.0.108:7545";
   final String _wsUrl = "ws://192.168.0.108:7545/";
 
@@ -28,6 +29,7 @@ class VotingMachineModel extends ChangeNotifier{
   late ContractEvent _CandidateAdded;
   late ContractFunction _casteVote;
   late ContractEvent _VoteCasted;
+  
   VotingMachineModel(){
     initiateSetup();
     //getAbi();
@@ -103,6 +105,9 @@ class VotingMachineModel extends ChangeNotifier{
     contract: _contract, 
     function: _addCandidate, 
     parameters: [candidateNameData,partyNameData]));
+
+    isCandidateAdded = true;
+    notifyListeners();
   }
 
   casteVote(BigInt candidateId,String candidateNameData,String partyNameData)async {
@@ -111,6 +116,7 @@ class VotingMachineModel extends ChangeNotifier{
        contract: _contract, 
        function: _casteVote, 
        parameters: [candidateId,candidateNameData,partyNameData]));
+       
   }
 
 

@@ -1,5 +1,6 @@
 import 'package:decentra_vm/candidate_list.dart';
 import 'package:decentra_vm/candidate_model.dart';
+import 'package:decentra_vm/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'admin_page.dart';
@@ -18,11 +19,12 @@ class MyApp extends StatelessWidget {
       create: (context) => VotingMachineModel(),
       child: MaterialApp(
         title: 'Decentra-VM',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
          
           primarySwatch: Colors.blue,
         ),
-        home: CandidateList(),
+        home: HomePage(),
       ),
     );
   }

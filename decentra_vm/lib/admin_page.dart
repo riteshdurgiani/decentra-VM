@@ -1,9 +1,11 @@
 
 import 'package:decentra_vm/candidate_model.dart';
+import 'package:decentra_vm/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AdminPage extends StatelessWidget {
+
+class AdminPage extends StatelessWidget{
  
   
   @override
@@ -15,11 +17,11 @@ class AdminPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Admin Page"),
+
       ),
       body: Column(children: [
-        Expanded(
-          flex: 1,
-          child: Row(
+        Padding(padding: EdgeInsets.all(10.0)),
+        Row(
             children: [
               Expanded(child: Text("Candidate Name : "),flex: 2),
               Expanded(
@@ -28,22 +30,20 @@ class AdminPage extends StatelessWidget {
               )
             ],
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Row(
+        Padding(padding: EdgeInsets.all(10.0),),
+         Row(
+           
             children: [
               Expanded(child: Text("Party Name : "),flex: 2),
               Expanded(
                 flex: 3,
                 child: TextField(controller: t2,),
+              
               )
             ],
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Row(
+        Padding(padding: EdgeInsets.all(10.0)),
+       Row(
             children: [
               Expanded(
                 flex: 5,
@@ -51,12 +51,30 @@ class AdminPage extends StatelessWidget {
                   child: Text("Add Candidate"),
                   onPressed: (){
                     candidateList.addCandidate(t1.text, t2.text);
+                    if(candidateList.isCandidateAdded){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Candidate Added Successfully")));
+                    }
                   },
                 ),
               )
             ],
           ),
-        )
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       flex: 5,
+          //       child: ElevatedButton(
+          //         child: Text("Reset Election"),
+                  
+          //         onPressed: (){
+          //           Navigator.push(context,MaterialPageRoute(builder: (context)=>MyApp()));
+                    
+          //         },
+          //       ),
+          //     )
+          //   ],
+          // ),
+        
       ],),
     );
   }
